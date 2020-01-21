@@ -1,0 +1,29 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 5ec30853302471e276a2ecf96ab07c6fbce94cd9f69bb3ffd8b132cfb588a4e7
+
+name:           log
+version:        0.1.0.0
+category:       Web
+homepage:       https://github.com/githubuser/log#readme
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+executable log
+  main-is: site.hs
+  other-modules:
+      Paths_log
+  build-depends:
+      base >=4.7 && <5
+    , hakyll
+  default-language: Haskell2010
