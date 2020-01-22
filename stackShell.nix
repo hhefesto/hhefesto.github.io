@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {}, ghc ? pkgs.ghc }:
 
 pkgs.haskell.lib.buildStackProject {
-  name = "patrickdelliott.com";
+  name = "blog.hhefesto.com";
   inherit ghc;
   buildInputs = with pkgs; [ zlib
                              haskellPackages.hakyll
