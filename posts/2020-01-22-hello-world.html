@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>hhefesto's blog - Hakyll + Stack + Nix</title>
+        <link rel="stylesheet" href="../css/default.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../">hhefesto's blog</a>
+            </div>
+            <nav>
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </nav>
+        </header>
+
+        <main role="main">
+            <h1>Hakyll + Stack + Nix</h1>
+            <article>
+    <section class="header">
+        Posted on January 22, 2020
+        
+    </section>
+    <section>
+        <h2 id="prelude">Prelude</h2>
+<p>This is my first post. Hello, world!</p>
+<p>In this post we are going to walk through my blog platform setup with Hakyll, Stack and Nix.</p>
+<p>Some links you might want to explore beforehand:</p>
+<ul>
+<li><a href="https://jaspervdj.be/hakyll/tutorials/github-pages-tutorial.html">Hakyll Github Pages Tutorial by Hakyll’s author</a></li>
+<li><a href="https://jaspervdj.be/hakyll/">Hakyll’s Home Page</a></li>
+<li><a href="https://www.youtube.com/watch?v=t8gim17hryw">Hakyll Presentation and demo by Hakyll’s author</a></li>
+<li><a href="https://nixos.org/">Nix/NixOS Homepage</a></li>
+<li><a href="https://pages.github.com/">Github Pages Homepage</a></li>
+</ul>
+<h2 id="intruduction">Intruduction</h2>
+<p>So <a href="../">this</a> should be something similar to our end result: a place where to write your blog posts.</p>
+<p>This post is basically just following <a href="https://jaspervdj.be/hakyll/tutorials/github-pages-tutorial.html">this</a> and turning on <code>stack</code>’s <code>nix</code> functionality.</p>
+<p>This is desireable because non-haskell dependancies are solved in the case of adding any.</p>
+<h2 id="steps">Steps</h2>
+<ol start="0" type="1">
+<li><p>I am using NixOS 19.09 with stack 1.9.3 taken from the 19.03 channel</p></li>
+<li><p>Follow <a href="https://jaspervdj.be/hakyll/tutorials/github-pages-tutorial.html">this</a> tutorial until you’ve hit</p>
+<pre><code>stack new myblog hakyll-template</code></pre></li>
+<li><p>Use <code>resolver: lts-12.26</code> on stack.yaml</p></li>
+<li><p>Then append this to stack.yaml</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode nix"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">nix</span>:</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="ex">enable</span>: true</a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="ex">pure</span>: true</a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="ex">shell-file</span>: shell.nix</a></code></pre></div></li>
+<li><p>Create <code>shell.nix</code> with this code, and change the <code>name</code> to correspond to whatever name you want</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode nix"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">{</span> <span class="ex">pkgs</span> ? import <span class="op">&lt;</span>nixpkgs<span class="op">&gt;</span> {<span class="kw">}</span>, <span class="ex">ghc</span> ? pkgs.ghc }:</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="ex">pkgs.haskell.lib.buildStackProject</span> {</a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="ex">name</span> = <span class="st">&quot;blog.hhefesto.com&quot;</span><span class="kw">;</span></a>
+<a class="sourceLine" id="cb3-5" title="5">  <span class="ex">inherit</span> ghc<span class="kw">;</span></a>
+<a class="sourceLine" id="cb3-6" title="6">  <span class="ex">buildInputs</span> = with pkgs<span class="kw">;</span><span class="bu"> [</span> zlib</a>
+<a class="sourceLine" id="cb3-7" title="7">                             haskellPackages.hakyll</a>
+<a class="sourceLine" id="cb3-8" title="8">                             gmp</a>
+<a class="sourceLine" id="cb3-9" title="9">                             <span class="co"># Any external dependancy you need may go here</span></a>
+<a class="sourceLine" id="cb3-10" title="10">                             <span class="co"># search https://nixos.org/nixos/packages.html?channel=nixos-19.09</span></a>
+<a class="sourceLine" id="cb3-11" title="11">                             <span class="co"># for the dependancy you're looking for and just add it</span></a>
+<a class="sourceLine" id="cb3-12" title="12">                           ];</a>
+<a class="sourceLine" id="cb3-13" title="13">  LANG <span class="ot">=</span> <span class="st">&quot;en_US.UTF-8&quot;</span>;</a>
+<a class="sourceLine" id="cb3-14" title="14">  TMPDIR <span class="ot">=</span> <span class="st">&quot;/tmp&quot;</span>;</a>
+<a class="sourceLine" id="cb3-15" title="15">}</a></code></pre></div></li>
+<li><p>Continue jaspervdj’s <a href="https://jaspervdj.be/hakyll/tutorials/github-pages-tutorial.html">tutorial</a></p></li>
+</ol>
+    </section>
+</article>
+
+        </main>
+
+        <footer>
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+    </body>
+</html>
