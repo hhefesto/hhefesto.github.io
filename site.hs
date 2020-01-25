@@ -6,7 +6,7 @@ import           Hakyll
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith config $ do
   match "docs/*" $ do
     route   idRoute
     compile copyFileCompiler
@@ -69,3 +69,8 @@ postCtx :: Context String
 postCtx =
   dateField "date" "%B %e, %Y" `mappend`
   defaultContext
+
+config :: Configuration
+config = defaultConfiguration
+    { previewPort = 8001
+    }
