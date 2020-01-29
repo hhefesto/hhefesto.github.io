@@ -9,7 +9,7 @@ This post should provide a starting point to follow [React's introduction tutori
 ## Steps
 
 0. Create a shell.nix file with
-   ```
+   ```nix
    #######################################################
    ## Using this instead will use your current nix-channel
    # with import <nixpkgs> {};
