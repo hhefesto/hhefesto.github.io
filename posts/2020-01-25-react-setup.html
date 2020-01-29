@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>hhefesto's blog - Vanilla React on NixOS setup</title>
         <link rel="stylesheet" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/syntax.css" />
     </head>
     <body>
         <header>
@@ -33,20 +34,20 @@
 <h2 id="steps">Steps</h2>
 <ol start="0" type="1">
 <li><p>Create a shell.nix file with</p>
-<pre><code>#######################################################
-## Using this instead will use your current nix-channel
-# with import &lt;nixpkgs&gt; {};
-with import (fetchTarball https://releases.nixos.org/nixos/19.09/nixos-19.09.1936.e6391b4389e/nixexprs.tar.xz) { };
-#######################################################
-
-stdenv.mkDerivation {
-  name = &quot;react-bootstrap-shell&quot;;
-  buildInputs = with pkgs; [
-    nodePackages.create-react-app
-    nodejs
-    yarn
-  ];
-}</code></pre></li>
+<div class="sourceCode" id="cb1"><pre class="sourceCode nix"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="co">#######################################################</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">## Using this instead will use your current nix-channel</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co"># with import &lt;nixpkgs&gt; {};</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="ex">with</span> import (fetchTarball https://releases.nixos.org/nixos/19.09/nixos-19.09.1936.e6391b4389e/nixexprs.tar.xz) <span class="kw">{</span> <span class="kw">}</span>;</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co">#######################################################</span></a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="ex">stdenv.mkDerivation</span> {</a>
+<a class="sourceLine" id="cb1-8" title="8">  <span class="ex">name</span> = <span class="st">&quot;react-bootstrap-shell&quot;</span><span class="kw">;</span></a>
+<a class="sourceLine" id="cb1-9" title="9">  <span class="ex">buildInputs</span> = with pkgs<span class="kw">;</span><span class="bu"> [</span></a>
+<a class="sourceLine" id="cb1-10" title="10">    nodePackages.create-react-app</a>
+<a class="sourceLine" id="cb1-11" title="11">    nodejs</a>
+<a class="sourceLine" id="cb1-12" title="12">    yarn</a>
+<a class="sourceLine" id="cb1-13" title="13">  ];</a>
+<a class="sourceLine" id="cb1-14" title="14">}</a></code></pre></div></li>
 <li>Run <code>nix-shell --pure shell.nix</code></li>
 <li><p>Continue <a href="https://reactjs.org/tutorial/tutorial.html">React’s introduction tutorial</a> where you <code>npx create-react-app my-app</code></p></li>
 </ol>
