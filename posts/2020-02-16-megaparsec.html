@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>hhefesto's blog - My experience refactoring from Parsec to Megaparsec for the SIL parser thus far</title>
+        <link rel="stylesheet" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/syntax.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../">hhefesto's blog</a>
+            </div>
+            <nav>
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </nav>
+        </header>
+
+        <main role="main">
+            <h1>My experience refactoring from Parsec to Megaparsec for the SIL parser thus far</h1>
+            <article>
+    <section class="header">
+        Posted on February 16, 2020
+        
+    </section>
+    <section>
+        <p>So I’m trying to refactor <a href="https://github.com/Stand-In-Language/stand-in-language">SIL</a>’s parser from using <a href="https://hackage.haskell.org/package/parsec">Parserc</a> to use <a href="https://hackage.haskell.org/package/megaparsec">Megaparsec</a>. This is my journey so far. An incomplete journey, because things do not work yet, but I think I’ve learned, so I’ll try to share and better conceptualize such learnings in this post.</p>
+<p>So my <a href="https://github.com/hhefesto/stand-in-language/commit/f5a7292c8999b6d98b419a3fdf285a05989310dc">first step</a> was to qualify all Parsec’s imports with <code>RM</code> to visualize what I have to remove.</p>
+<p>My second step was to read up about Megaparsec, Parsec, some blog posts, and a Youtube video:</p>
+<ul>
+<li><a href="https://markkarpov.com/tutorial/megaparsec.html">Megaparsec’s tutorial</a></li>
+<li><a href="https://www.youtube.com/watch?v=swmcdn_Nf9g">Youtube video using Megaparsec</a></li>
+<li><a href="https://spin.atomicobject.com/2012/03/16/using-text-parsec-indent-to-parse-an-indentation-sensitive-language-with-haskells-parsec-library/">Indentation with Parsec</a></li>
+<li><a href="https://stackoverflow.com/questions/48271208/indentation-using-megaparsec">Example of someone doing “Indentation using Megaparsec”</a></li>
+</ul>
+<p>Reading about Parsec and Megaparsec was Okay to getting familiarized with how things happened. But, if I had to do it again, I would concentrate on <a href="https://markkarpov.com/tutorial/megaparsec.html">Megaparsec’s tutorial</a> and dive into the code.</p>
+<p>Previous <em>reading</em> is necessary to not stab the problem in the dark, but, a posteriori, I wouldn’t recommend trying to understand deeply after reading. You/I should see <em>reading</em> as skimming through a resource for a general direction. And this is important to me because I felt my anxiety building up as no code was being written and me still not understanding Parsec’s and Megaparsec’s take on <em>monadic parsing</em> to the fullest with such reading. So I would recommend to you and myself to take it easy, recognize when your <em>reading</em> is done by doing an introspective gaze and answer: Is this enough to get started?</p>
+<p>Deeper understanding comes from actually doing stuff. I still feel that <em>reading</em> is important to build up your self confidence, but just to be able to start. One gets stuck if you try to start after knowing everything, because you will never actually learn everything by just reading, you need hands-on experience.</p>
+<p>Continuing with my <a href="https://github.com/hhefesto/stand-in-language/commit/17578785e0a1f91f0512adc442459b993d3fd2b1">next step</a> on this refactoring business, once I felt a bit more confident from my reading, I made a new copy of SIL’s <code>Parser.hs</code> module, renamed it to <code>ParserMegaparsec</code>, commented everything out and started “consuming” every commented function and refactoring them to code that type-checked using Megaparsec’s combinators.</p>
+<p>At first things seemed to finally accelerate, but that was because the first parsers I refactored were not indentation sensitive. It was until I faced refactoring <code>parserPair</code> that I got stuck again. And I had already read the indentation section of Megaparsec’s tutorial, but it wasn’t until I was doing stuff with it that I noticed clear holes on my knowledge. Identifying those holes I was able to read about them and better understand while trying to solve the problem.</p>
+<p>After more reading, I finally got a sense of how to implement <code>parsePair</code> so that it type-checked. Having this indentation sensitive parser ready, it was quite simple to replicate the effort for the rest of the indentation sensitive parsers (which were most of them). This is shown in <a href="https://github.com/hhefesto/stand-in-language/commit/9b86a4bbd216edd11d117b99db75ef71f7c3071c">this commit</a>.</p>
+<p>And that’s basically where I’m at. <code>Megaparsec.hs</code> does compile, but that won’t warranty correctness (it takes you a step closer, but more testing is required). After running the parser with a simple hello-world SIL script, I got a memory leak and had to force reboot my machine…</p>
+<p>So whats next? I need a better way to test/run my parsers and a better understanding of how to read and improve Megaparsec’s error handling.</p>
+<p>See you/me next time ;)</p>
+    </section>
+</article>
+
+        </main>
+
+        <footer>
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+    </body>
+</html>
