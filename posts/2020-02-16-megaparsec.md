@@ -7,6 +7,7 @@ So I'm trying to refactor [SIL](https://github.com/Stand-In-Language/stand-in-la
 So my [first step](https://github.com/hhefesto/stand-in-language/commit/f5a7292c8999b6d98b419a3fdf285a05989310dc) was to qualify all Parsec's imports with `RM` to visualize what I have to remove.
 
 My second step was to read up about Megaparsec, Parsec, some blog posts, and a Youtube video:
+
 - [Megaparsec's tutorial](https://markkarpov.com/tutorial/megaparsec.html)
 - [Youtube video using Megaparsec](https://www.youtube.com/watch?v=swmcdn_Nf9g)
 - [Indentation with Parsec](https://spin.atomicobject.com/2012/03/16/using-text-parsec-indent-to-parse-an-indentation-sensitive-language-with-haskells-parsec-library/)
