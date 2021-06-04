@@ -1,4 +1,4 @@
-cabal-version: 1.12
+-- cabal-version: 1.12
 
 -- This file has been generated from package.yaml by hpack version 0.31.2.
 --
@@ -9,10 +9,10 @@ cabal-version: 1.12
 name:           log
 version:        0.1.0.0
 category:       Web
-homepage:       https://github.com/githubuser/log#readme
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2020 Author name here
+homepage:       https://github.com/hhefesto/hhefesto.github.io#readme
+author:         Daniel Alberto Herrera Rendón
+maintainer:     hhefesto@rdataa.com
+copyright:      2021 Daniel Alberto Herrera Rendón
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
