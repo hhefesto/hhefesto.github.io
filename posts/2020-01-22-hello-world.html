@@ -51,26 +51,26 @@
 <pre><code>stack new myblog hakyll-template</code></pre></li>
 <li><p>Use <code>resolver: lts-12.26</code> on stack.yaml</p></li>
 <li><p>Then append this to stack.yaml</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode nix"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">nix</span>:</a>
-<a class="sourceLine" id="cb2-2" title="2">  <span class="ex">enable</span>: true</a>
-<a class="sourceLine" id="cb2-3" title="3">  <span class="ex">pure</span>: true</a>
-<a class="sourceLine" id="cb2-4" title="4">  <span class="ex">shell-file</span>: shell.nix</a></code></pre></div></li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">enable:</span> true</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">pure:</span> true</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">shell-file:</span> shell.nix</span></code></pre></div></li>
 <li><p>Create <code>shell.nix</code> with this code, and change the <code>name</code> to correspond to whatever name you want</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode nix"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">{</span> <span class="ex">pkgs</span> ? import <span class="op">&lt;</span>nixpkgs<span class="op">&gt;</span> {<span class="kw">}</span>, <span class="ex">ghc</span> ? pkgs.ghc }:</a>
-<a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="ex">pkgs.haskell.lib.buildStackProject</span> {</a>
-<a class="sourceLine" id="cb3-4" title="4">  <span class="ex">name</span> = <span class="st">&quot;blog.hhefesto.com&quot;</span><span class="kw">;</span></a>
-<a class="sourceLine" id="cb3-5" title="5">  <span class="ex">inherit</span> ghc<span class="kw">;</span></a>
-<a class="sourceLine" id="cb3-6" title="6">  <span class="ex">buildInputs</span> = with pkgs<span class="kw">;</span><span class="bu"> [</span> zlib</a>
-<a class="sourceLine" id="cb3-7" title="7">                             haskellPackages.hakyll</a>
-<a class="sourceLine" id="cb3-8" title="8">                             gmp</a>
-<a class="sourceLine" id="cb3-9" title="9">                             <span class="co"># Any external dependancy you need may go here</span></a>
-<a class="sourceLine" id="cb3-10" title="10">                             <span class="co"># search https://nixos.org/nixos/packages.html?channel=nixos-19.09</span></a>
-<a class="sourceLine" id="cb3-11" title="11">                             <span class="co"># for the dependancy you're looking for and just add it</span></a>
-<a class="sourceLine" id="cb3-12" title="12">                           ];</a>
-<a class="sourceLine" id="cb3-13" title="13">  LANG <span class="ot">=</span> <span class="st">&quot;en_US.UTF-8&quot;</span>;</a>
-<a class="sourceLine" id="cb3-14" title="14">  TMPDIR <span class="ot">=</span> <span class="st">&quot;/tmp&quot;</span>;</a>
-<a class="sourceLine" id="cb3-15" title="15">}</a></code></pre></div></li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">{</span> <span class="ex">pkgs</span> <span class="pp">?</span> import <span class="op">&lt;</span>nixpkgs<span class="op">&gt;</span> {}, ghc <span class="pp">?</span> pkgs.ghc }:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pkgs.haskell.lib.buildStackProject</span> {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">name</span> = <span class="st">&quot;blog.hhefesto.com&quot;</span><span class="kw">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">inherit</span> ghc<span class="kw">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">buildInputs</span> = with pkgs<span class="kw">;</span> <span class="bu">[</span> zlib</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                             haskellPackages.hakyll</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                             gmp</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                             <span class="er">#</span> <span class="er">Any</span> <span class="ex">external</span> dependancy you need may go here</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                             <span class="co"># search https://nixos.org/nixos/packages.html?channel=nixos-19.09</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                             <span class="co"># for the dependancy you're looking for and just add it</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                           <span class="ex">]</span><span class="kw">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">LANG</span> = <span class="st">&quot;en_US.UTF-8&quot;</span><span class="kw">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="ex">TMPDIR</span> = <span class="st">&quot;/tmp&quot;</span><span class="kw">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div></li>
 <li><p>Continue jaspervdj’s <a href="https://jaspervdj.be/hakyll/tutorials/github-pages-tutorial.html">tutorial</a></p></li>
 </ol>
     </section>
