@@ -1,10 +1,7 @@
---------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid (mappend)
 import           Hakyll
 
-
---------------------------------------------------------------------------------
 main :: IO ()
 main = hakyllWith config $ do
   match "docs/*" $ do
@@ -19,7 +16,7 @@ main = hakyllWith config $ do
     route   idRoute
     compile compressCssCompiler
 
-  match (fromList ["about.md", "contact.markdown"]) $ do
+  match (fromList ["about.md", "contact.markdown", "university-details.md"]) $ do
     route   $ setExtension "html"
     compile $ pandocCompiler
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
