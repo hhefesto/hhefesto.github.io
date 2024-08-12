@@ -34,20 +34,20 @@
 <h2 id="steps">Steps</h2>
 <ol start="0" type="1">
 <li><p>Create a shell.nix file with</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode nix"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#######################################################</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode nix"><code class="sourceCode nix"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#######################################################</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Using this instead will use your current nix-channel</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># with import &lt;nixpkgs&gt; {};</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">with</span> import <span class="er">(</span><span class="ex">fetchTarball</span> https://releases.nixos.org/nixos/19.09/nixos-19.09.1936.e6391b4389e/nixexprs.tar.xz<span class="kw">)</span> <span class="kw">{</span> <span class="kw">};</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">with</span> <span class="bu">import</span> <span class="op">(</span><span class="bu">fetchTarball</span> <span class="va">https</span><span class="op">://</span><span class="ss">releases.nixos.org/nixos/19.09/nixos-19.09.1936.e6391b4389e/nixexprs.tar.xz</span><span class="op">)</span> <span class="op">{</span> <span class="op">};</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#######################################################</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">stdenv.mkDerivation</span> {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">name</span> = <span class="st">&quot;react-bootstrap-shell&quot;</span><span class="kw">;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">buildInputs</span> = with pkgs<span class="kw">;</span> <span class="bu">[</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>stdenv.mkDerivation <span class="op">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;react-bootstrap-shell&quot;</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">buildInputs</span> <span class="op">=</span> <span class="kw">with</span> pkgs<span class="op">;</span> <span class="op">[</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    nodePackages.create-react-app</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    nodejs</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    yarn</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">]</span><span class="er">;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code></pre></div></li>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">];</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div></li>
 <li><p>Run <code>nix-shell --pure shell.nix</code></p></li>
 <li><p>Continue <a href="https://reactjs.org/tutorial/tutorial.html">React’s introduction tutorial</a> where you <code>npx create-react-app my-app</code></p></li>
 </ol>

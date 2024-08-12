@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>hhefesto's blog - The Uno Monoids (INCOMPLETE)</title>
+        <link rel="stylesheet" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/syntax.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../">hhefesto's blog</a>
+            </div>
+            <nav>
+                <a href="../">Home</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </nav>
+        </header>
+
+        <main role="main">
+            <h1>The Uno Monoids (INCOMPLETE)</h1>
+            <article>
+    <section class="header">
+        Posted on July 27, 2023
+        
+    </section>
+    <section>
+        <p>This is model of <a href="https://en.wikipedia.org/wiki/Uno_(card_game)" title="card game">UNO</a>, the card game, using Monoids.</p>
+<h1 id="uno-rules">UNO Rules:</h1>
+<p>You might not have played UNO before, so these is how it’s played:</p>
+<p>There are up to 10 players and each receives 7 cards at the start (just you can see your own cards).</p>
+<p>UNO cards are either a power cards or number cards.</p>
+<p>Number cards have a digit (0-9) and a color.</p>
+<p>Momentarily not including the power cards, a center card is flipped (from the rest of the deck card that lays stacked upsidedown without showing the numbers) for the first player to interact with. With the first center card on the table, the first player can choose one of his/her cards and stack it showing on top of the first center card (ending his turn) with the condition that it has to be either the same number or same color as the center card, but if he doesn’t have a card with the same number or color, then he takes an extra card from the non showing deck and his turn passes. One route decreases the of cards on you hand, and the other increases (when you don’t have the color nor number).</p>
+<p>The game is won when you have zero cards.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE LambdaCase #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">UNO</span> <span class="kw">where</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Color</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">=</span> <span class="dt">Red</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> <span class="dt">Blue</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> <span class="dt">Yellow</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> <span class="dt">Green</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">EQ</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Digit</span> <span class="ot">=</span> <span class="dt">Digit</span> <span class="dt">Int</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>           <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">EQ</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ot">mkDigit ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>mkDigit <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="dv">4</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="dv">6</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="dv">7</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="dv">8</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="dv">9</span> <span class="ot">-&gt;</span> <span class="dt">Digit</span> <span class="dv">0</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  _ <span class="ot">-&gt;</span> <span class="fu">error</span> <span class="st">&quot;Digit has to be 0-9&quot;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Card</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="ot">=</span> <span class="dt">Card</span> <span class="dt">Digit</span> <span class="dt">Color</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Eq</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Player</span> <span class="ot">=</span> (<span class="dt">Int</span>, [<span class="dt">Card</span>])</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ot">mkPlayers ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [<span class="dt">Players</span>]</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>mkPlayers i <span class="ot">=</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> i <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">||</span> i <span class="op">&gt;</span> <span class="dv">10</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">then</span> <span class="fu">error</span> <span class="st">&quot;Incorrect number of players&quot;</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="kw">else</span> [<span class="dv">0</span><span class="op">..</span>i] <span class="ot">`zip`</span> startingCards i</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ot">startingCards ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [<span class="dt">Cards</span>]</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>startingCards <span class="ot">=</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="kw">if</span> i <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">||</span> i <span class="op">&gt;</span> <span class="dv">10</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="kw">then</span> <span class="fu">error</span> <span class="st">&quot;Incorrect number of players&quot;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">else</span> <span class="fu">undefined</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">DrawDeck</span> <span class="ot">=</span> [<span class="dt">Card</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">PlayedDeck</span> <span class="ot">=</span> [<span class="dt">Card</span>]</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Game</span> <span class="ot">=</span> ([<span class="dt">Player</span>], <span class="dt">DrawDeck</span>, <span class="dt">PlayedDeck</span>)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">-- | Choose a card (the first occurance that complies with the rules)</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ot">chooseCard ::</span> <span class="dt">Card</span> <span class="ot">-&gt;</span> <span class="dt">Player</span> <span class="ot">-&gt;</span> <span class="dt">Player</span> <span class="ot">-&gt;</span> (<span class="dt">Player</span>, <span class="dt">Maybe</span> <span class="dt">Card</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>chooseCard  c<span class="op">@</span>(<span class="dt">Card</span> a b) initPlayer <span class="ot">-&gt;</span> \<span class="kw">case</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  p<span class="op">@</span>(playerNumber, []) <span class="ot">-&gt;</span> (p, <span class="dt">Nothing</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  p<span class="op">@</span>(playerNumber, (<span class="dt">Card</span> x y<span class="op">:</span> rest)) <span class="ot">-&gt;</span> <span class="kw">if</span> x <span class="op">==</span> a <span class="op">||</span> y <span class="op">==</span> b</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>                                          <span class="kw">then</span> ( delete (<span class="dt">Card</span> x y) <span class="op">&lt;$&gt;</span> initPlayer, <span class="dt">Card</span> x y)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                                          <span class="kw">else</span> chooseCard c initPlayer (playerNumber, rest)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="ot">stepGame ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>stepGame <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  ([], _, _) <span class="ot">-&gt;</span> <span class="fu">error</span> <span class="st">&quot;A game has to have more than 2 players&quot;</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  ([_], _, _) <span class="ot">-&gt;</span> <span class="fu">error</span> <span class="st">&quot;A game has to have more than 2 players&quot;</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  (_, [], _) <span class="ot">-&gt;</span> <span class="fu">error</span> <span class="st">&quot;The draw deck has to have cards (use the tail of the played deck)&quot;</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  (_, _, []) <span class="ot">-&gt;</span> <span class="fu">error</span> <span class="st">&quot;At any point of the game, there is at least one center card&quot;</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  (currentPlayer<span class="op">:</span>nextPlayer<span class="op">:</span>restOfPlayers, dd, pd) <span class="ot">-&gt;</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> playingCard <span class="ot">=</span> <span class="fu">head</span> pd</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span> (<span class="fu">undefined</span>, <span class="fu">undefined</span>, <span class="fu">undefined</span>)</span></code></pre></div>
+<p>I’m temporally placing this post on hold because I realized a better way to model this game is with dependent types where a type would define the Monoid it is working with (numbers, color) depending on the value of the last card.</p>
+    </section>
+</article>
+
+        </main>
+
+        <footer>
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+    </body>
+</html>
